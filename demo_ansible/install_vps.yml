@@ -19,11 +19,12 @@
     - name: Set execute permission for docker-compose
       shell: chmod 755 /usr/local/bin/docker-compose
     
-    - name: Clone source to VPS
+    - name: Clone or update source to VPS
       git:
         repo: "https://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@github.com/maxnoah-dev/social-full-demo.git"
         dest: /root/social-full
         version: fe-nginx-demo
+        force: yes   # Luôn pull lại code mới nhất
     
     - name: Deployment
-      shell: cd /root/social-full && docker-compose up -d
+      shell: cd /root/social-full && docker-compose up -d --build
