@@ -1,0 +1,29 @@
+- name: Playbook demo
+  hosts: list_host
+  become: yes
+
+  tasks:
+    - name: Docker install
+      apt:
+        name: docker.io
+        state: present
+    
+    - name: Git install
+      apt:
+        name: git
+        state: present
+
+    - name: Docker Compose install
+      shell: curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+    - name: Set execute permission for docker-compose
+      shell: chmod 755 /usr/local/bin/docker-compose
+    
+    - name: Clone source to VPS
+      git:
+        repo: "https://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@github.com/maxnoah-dev/social-full-demo.git"
+        dest: /root/social-full
+        version: fe-nginx-demo
+    
+    - name: Deployment
+      shell: cd /root/social-full && docker-compose up -d
